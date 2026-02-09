@@ -1,0 +1,45 @@
+{
+  "centered": true,
+  "experiences": [
+    {
+      "company": "ALMAnaCH, Inria",
+      "companyUrl": "https://www.inria.fr",
+      "position": "Predoctoral Researcher",
+      "startDate": "2026-04-01",
+      "description": "*Previously Research Intern*",
+      "education": false
+    },
+    {
+      "company": "Straufi",
+      "position": "Co-Founder",
+      "startDate": "2024-06-01",
+      "education": false
+    },
+    {
+      "company": "Hive",
+      "companyUrl": "https://www.hivenet.com/",
+      "position": "Data Scientist Intern",
+      "startDate": "2023-11-01",
+      "endDate": "2024-04-01",
+      "education": false
+    },
+    {
+      "company": "UC Irvine",
+      "companyUrl": "https://uci.edu",
+      "position": "CS Study Abroad Program",
+      "startDate": "2022-08-01",
+      "endDate": "2022-12-08",
+      "education": true,
+      "description": "GPA: _4.00/4.00_\\\nCoursework: _Java Programming, Computer Architecture, Operating Systems_"
+    },
+    {
+      "company": "EFREI Paris",
+      "companyUrl": "https://www.efrei.fr",
+      "position": "M.S. CS - Major Data & AI",
+      "startDate": "2020-09-01",
+      "description": "GPA: _3.70/4.00_\\\nRelevant Coursework: _Chatbot & Generative AI, Natural Language Processing, Neural Networks and Deep Learning,\nReinforcement Learning, Machine Learning II, Convex Optimization, Advanced Databases_",
+      "endDate": "2025-07-01",
+      "education": true
+    }
+  ]
+}

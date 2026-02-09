@@ -1,0 +1,20 @@
+{
+  "title": "Disentangling meaning from language in LLM based MT",
+  "flag": "Under review",
+  "date": "2026-02-05",
+  "tags": [
+    "Machine Translation",
+    "Mechanistic Interpretability"
+  ],
+  "links": [
+    {
+      "label": "Arxiv",
+      "url": "https://arxiv.org/abs/2602.04613"
+    },
+    {
+      "label": "Code",
+      "url": "https://github.com/Blyzi/mitra"
+    }
+  ],
+  "authors": "Théo Lasnier$^*$, Armel Randy$^*$, Djamé Seddah, Rachel Bawden, Benoît Sagot"
+}
