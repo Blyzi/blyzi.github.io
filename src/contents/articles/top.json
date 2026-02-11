@@ -1,1 +1,19 @@
-{"slug":"","title":"Tree of Problems: Improving structured problem solving with compositionality","flag":"EMNLP 2024","date":"2024-10-09","content":"","tags":["CoT","Compositionality"],"links":[{"label":"ArXiv","url":"https://arxiv.org/abs/2410.06634"}],"authors":"AR Zebaze, Benoît Sagot, Rachel Bawden"}
+{
+    "slug":"",
+    "title":"Tree of Problems: Improving structured problem solving with compositionality",
+    "flag":"EMNLP 2024",
+    "date":"2024-10-09",
+    "content":"",
+    "tags":["CoT","Compositionality"],
+    "links":[
+        {
+            "label":"ArXiv",
+            "url":"https://arxiv.org/abs/2410.06634"
+        },
+        {
+            "label":"Code",
+            "url":"https://github.com/ArmelRandy/tree-of-problems"
+        }
+    ],
+    "authors":"AR Zebaze, Benoît Sagot, Rachel Bawden"
+}
