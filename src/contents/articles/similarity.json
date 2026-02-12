@@ -1,0 +1,22 @@
+{
+  "slug": "",
+  "title": "In-Context Example Selection via Similarity Search Improves Low-Resource Machine Translation",
+  "flag": "NAACL 2025 Findings",
+  "date": "2024-08-01",
+  "content": "",
+  "tags": [
+    "Machine Translation",
+    "In-Context Learning"
+  ],
+  "links": [
+    {
+      "label": "ArXiv",
+      "url": "https://arxiv.org/abs/2408.00397"
+    },
+    {
+      "label": "Code",
+      "url": "https://github.com/ArmelRandy/ICL-MT"
+    }
+  ],
+  "authors": "AR Zebaze, Benoît Sagot, Rachel Bawden"
+}
