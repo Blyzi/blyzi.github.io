@@ -5,9 +5,18 @@ interface CopyButtonProps {
 
 export default function CopyButton({ text, children }: CopyButtonProps) {
   const handleCopy = () => {
-    navigator.clipboard.writeText(text).then(() => {
-      alert("Copied to clipboard!");
-    });
+    try {
+      const parsedJson = JSON.parse(text);
+      const formattedJson = JSON.stringify(parsedJson, null, 2);
+      navigator.clipboard.writeText(formattedJson).then(() => {
+        alert("Copied to clipboard!");
+      });
+    } catch {
+      // If text is not valid JSON, copy it as-is
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard!");
+      });
+    }
   };
 
   return (

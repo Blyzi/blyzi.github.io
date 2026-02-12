@@ -7,6 +7,7 @@ import { math } from "micromark-extension-math";
 import Image from "next/image";
 import type { Article as ArticleType } from "@/lib/schemas";
 import Renderer from "./renderer";
+import Link from "next/link";
 
 type ArticleProps = {
   data: ArticleType;
@@ -37,15 +38,18 @@ export default function ArticlePreview({
       )}
       <div className="flex flex-col gap-2 justify-center">
         <h2 className="text-2xl font-bold text-(--secondary) text-pretty">
-          {data.content ? (
-            <a
-              href={data.content}
+          {data.content || (data.links && data.links.length > 0) ? (
+            <Link
+              href={
+                // biome-ignore lint/style/noNonNullAssertion: We know that if data.content is falsy, then data.links must be non-empty
+                data.content ? `/articles/${data.slug}` : data.links![0].url
+              }
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline"
             >
               {data.title}
-            </a>
+            </Link>
           ) : (
             data.title
           )}
