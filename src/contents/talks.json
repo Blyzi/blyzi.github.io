@@ -1,14 +1,1 @@
-[
-    {
-        "title": "Conference XYZ",
-        "description": "I talked about ...",
-        "date": "2026-01-01",
-        "flag": "",
-        "links": [
-            {
-                "label": "A link",
-                "url": "http://google.fr"
-            }
-        ]
-    }
-]
+[]
