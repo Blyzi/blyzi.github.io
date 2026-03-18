@@ -45,7 +45,7 @@ export default function ArticlePreview({
             <Link
               href={
                 // biome-ignore lint/style/noNonNullAssertion: We know that if data.content is falsy, then data.links must be non-empty
-                data.content ? `/articles/${data.slug}` : data.links![0].url
+                data.content ? `/article/${data.slug}` : data.links![0].url
               }
               target="_blank"
               rel="noopener noreferrer"

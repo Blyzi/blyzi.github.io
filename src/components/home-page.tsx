@@ -62,19 +62,9 @@ export default function HomePage({
                     </div>
 
                     <div className="flex flex-col gap-4">
-                      {articlesData.slice(0, 5).map((article) =>
-                        article.content ? (
-                          <Link
-                            key={article.slug}
-                            href={`/article/${article.slug}`}
-                            aria-label={`Read article: ${article.title}`}
-                          >
-                            <ArticlePreview data={article} />
-                          </Link>
-                        ) : (
-                          <ArticlePreview key={article.slug} data={article} />
-                        ),
-                      )}
+                      {articlesData.slice(0, 5).map((article) => (
+                        <ArticlePreview key={article.slug} data={article} />
+                      ))}
                     </div>
                   </div>
                 )
