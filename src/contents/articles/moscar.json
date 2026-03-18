@@ -1,0 +1,19 @@
+{
+    "slug":"",
+    "title":"mOSCAR: A Large-scale Multilingual and Multimodal Document-level Corpus",
+    "flag":"ACL 2025 Findings",
+    "date":"2024-06-13",
+    "content":"",
+    "tags":["Dataset","Multimodal", "Multilingual"],
+    "links":[
+        {
+            "label":"ArXiv",
+            "url":"https://arxiv.org/abs/2406.08707"
+        },
+        {
+            "label":"Dataset",
+            "url":"https://oscar-project.github.io/documentation/versions/mOSCAR/"
+        }
+    ],
+    "authors":"Matthieu Futeral, AR Zebaze, Julien Abadji, Rémi Lacroix, Cordelia Schmid, Rachel Bawden, Benoît Sagot"
+}
