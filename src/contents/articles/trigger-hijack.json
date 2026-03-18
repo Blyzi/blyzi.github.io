@@ -1,0 +1,17 @@
+{
+  "title": "Triggers Hijack Language Circuits: A Mechanistic Analysis of Backdoor Behaviors in Large Language Models",
+  "flag": "Under review",
+  "date": "2026-01-05",
+  "content": "",
+  "tags": [
+    "LLM Safety",
+    "Mechanistic Interpretability"
+  ],
+  "links": [
+    {
+      "label": "ArXiv",
+      "url": "http://arxiv.org/abs/2602.10382"
+    }
+  ],
+  "authors": "Théo Lasnier, Wissam Antoun, Francis Kulumba, Djamé Seddah"
+}
