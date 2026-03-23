@@ -34,6 +34,7 @@ const metadataSchema = Type.Object({
   secondaryColor: Type.String(),
   font: fontSchema,
   gaMeasurementId: Type.Optional(Type.String()),
+  googleSiteVerification: Type.Optional(Type.String()),
   sectionOrder: Type.Array(
     Type.Union([
       Type.Literal("profile"),

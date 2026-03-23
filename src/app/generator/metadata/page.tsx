@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  IconBrandGoogle,
   IconBrandGoogleAnalytics,
   IconHeading,
   IconPalette,
@@ -34,6 +35,8 @@ export default function GeneratorMetadataPage() {
   const [secondaryColor, setSecondaryColor] = useState<string>("#42ff7b");
   const [font, setFont] = useState<FontOption>("monaspace-neon");
   const [gaMeasurementId, setGaMeasurementId] = useState<string>("");
+  const [googleSiteVerification, setGoogleSiteVerification] =
+    useState<string>("");
   const [sectionOrder, setSectionOrder] = useState<
     MetadataType["sectionOrder"]
   >(["profile", "articles", "resume", "talks"]);
@@ -46,6 +49,7 @@ export default function GeneratorMetadataPage() {
       secondaryColor,
       font,
       gaMeasurementId: gaMeasurementId || undefined,
+      googleSiteVerification: googleSiteVerification || undefined,
       sectionOrder,
     }),
     [
@@ -55,6 +59,7 @@ export default function GeneratorMetadataPage() {
       secondaryColor,
       font,
       gaMeasurementId,
+      googleSiteVerification,
       sectionOrder,
     ],
   );
@@ -73,6 +78,11 @@ export default function GeneratorMetadataPage() {
       if ((rawMetadataData as MetadataType).gaMeasurementId) {
         setGaMeasurementId(
           (rawMetadataData as MetadataType).gaMeasurementId || "",
+        );
+      }
+      if ((rawMetadataData as MetadataType).googleSiteVerification) {
+        setGoogleSiteVerification(
+          (rawMetadataData as MetadataType).googleSiteVerification || "",
         );
       }
       if (sectionOrder) {
@@ -165,6 +175,14 @@ export default function GeneratorMetadataPage() {
         value={gaMeasurementId}
         onChange={setGaMeasurementId}
         placeholder="Google Analytics Measurement ID (e.g. G-XXXXXXXXXX)"
+        className="grow"
+      />
+
+      <Input
+        icon={<IconBrandGoogle />}
+        value={googleSiteVerification}
+        onChange={setGoogleSiteVerification}
+        placeholder="Google Site Verification for Search Console"
         className="grow"
       />
 

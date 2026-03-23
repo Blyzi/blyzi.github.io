@@ -26,6 +26,11 @@ export const metadata: NextMetadata = {
       icon: metadataConfig.logo,
     },
   }),
+  ...(metadataConfig.googleSiteVerification && {
+    other: {
+      "google-site-verification": metadataConfig.googleSiteVerification,
+    },
+  }),
 };
 
 const monaspaceNeon = localFont({
