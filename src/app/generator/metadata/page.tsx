@@ -4,6 +4,7 @@ import {
   IconBrandGoogle,
   IconBrandGoogleAnalytics,
   IconHeading,
+  IconLink,
   IconPalette,
   IconPhoto,
   IconTypography,
@@ -30,6 +31,7 @@ import {
 
 export default function GeneratorMetadataPage() {
   const [title, setTitle] = useState<string>("");
+  const [websiteUrl, setWebsiteUrl] = useState<string>("");
   const [logo, setLogo] = useState<string>("");
   const [primaryColor, setPrimaryColor] = useState<string>("#8b5cf6");
   const [secondaryColor, setSecondaryColor] = useState<string>("#42ff7b");
@@ -44,6 +46,7 @@ export default function GeneratorMetadataPage() {
   const draftMetadataData = useMemo(
     () => ({
       title,
+      websiteUrl: websiteUrl || undefined,
       logo,
       primaryColor,
       secondaryColor,
@@ -54,6 +57,7 @@ export default function GeneratorMetadataPage() {
     }),
     [
       title,
+      websiteUrl,
       logo,
       primaryColor,
       secondaryColor,
@@ -69,6 +73,7 @@ export default function GeneratorMetadataPage() {
       const { title, logo, primaryColor, secondaryColor, font, sectionOrder } =
         rawMetadataData as MetadataType;
       setTitle(title);
+      setWebsiteUrl((rawMetadataData as MetadataType).websiteUrl || "");
       setLogo(logo || "");
       setPrimaryColor(primaryColor);
       setSecondaryColor(secondaryColor);
@@ -122,6 +127,16 @@ export default function GeneratorMetadataPage() {
           value={title}
           onChange={setTitle}
           placeholder="Site Title"
+          className="grow"
+        />
+      </div>
+
+      <div className="flex items-center gap-2 grow">
+        <IconLink />
+        <Input
+          value={websiteUrl}
+          onChange={setWebsiteUrl}
+          placeholder="Website URL (e.g. https://example.com)"
           className="grow"
         />
       </div>
