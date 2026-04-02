@@ -9,7 +9,9 @@ import {
   IconTag,
   IconUser,
 } from "@tabler/icons-react";
-import { useMemo, useState } from "react";
+import Image from "next/image";
+import { useMemo, useRef, useState } from "react";
+
 import Article from "@/components/article";
 import ArticlePreview from "@/components/article-preview";
 import CopyButton from "@/components/copy-button";
@@ -29,6 +31,13 @@ export default function GeneratorArticlePage() {
   const [links, setLinks] = useState<Array<{ label: string; url: string }>>([]);
   const [picture, setPicture] = useState<string>("");
   const [authors, setAuthors] = useState<string>("");
+  const [images, setImages] = useState<{ path: string; dataUrl: string }[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const imageMap = useMemo(
+    () => Object.fromEntries(images.map((img) => [img.path, img.dataUrl])),
+    [images],
+  );
 
   const draftArticleData = useMemo<ArticleType>(
     () => ({
@@ -48,11 +57,20 @@ export default function GeneratorArticlePage() {
     [title, flag, date, content, tags, links, picture, authors],
   );
 
+  const copyData = useMemo(() => {
+    const { slug: _slug, ...data } = draftArticleData;
+
+    if (images.length === 0) return JSON.stringify(data);
+    let embeddedContent = draftArticleData.content || "";
+    for (const img of images) {
+      embeddedContent = embeddedContent.replaceAll(img.path, img.dataUrl);
+    }
+    return JSON.stringify({ ...data, content: embeddedContent });
+  }, [draftArticleData, images]);
+
   return (
     <div className="flex flex-col gap-8">
-      <CopyButton text={JSON.stringify(draftArticleData)}>
-        Copy Article
-      </CopyButton>
+      <CopyButton text={copyData}>Copy Article</CopyButton>
 
       <div className="grid gap-4 grid-cols-1">
         <Input
@@ -99,7 +117,7 @@ export default function GeneratorArticlePage() {
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold">Article Picture</h3>
+          <h3 className="font-semibold">Article Thumbnail</h3>
           {picture && (
             <button
               type="button"
@@ -152,6 +170,53 @@ export default function GeneratorArticlePage() {
         )}
       />
 
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        multiple
+        className="hidden"
+        onChange={(e) => {
+          const files = e.target.files;
+          if (!files) return;
+          Array.from(files).forEach((file) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+              if (typeof reader.result === "string") {
+                setImages((prev) => [
+                  ...prev,
+                  {
+                    path: file.name,
+                    dataUrl: reader.result as string,
+                  },
+                ]);
+              }
+            };
+            reader.readAsDataURL(file);
+          });
+          e.target.value = "";
+        }}
+      />
+      <ItemList
+        icon={<IconPhoto />}
+        items={images}
+        onAdd={() => fileInputRef.current?.click()}
+        onRemove={(index) => setImages(images.filter((_, i) => i !== index))}
+        addButtonText="Add Image"
+        renderItem={(img) => (
+          <div className="flex items-center gap-2 grow">
+            <Image
+              src={img.dataUrl}
+              alt={img.path}
+              width={32}
+              height={32}
+              className="w-8 h-8 object-cover rounded"
+            />
+            <span className="font-mono text-sm">{img.path}</span>
+          </div>
+        )}
+      />
+
       <div className="flex flex-col gap-2">
         <span className="font-semibold">Content</span>
         <Input
@@ -165,7 +230,7 @@ export default function GeneratorArticlePage() {
       {ArticleSchema.Check(draftArticleData) && (
         <>
           <ArticlePreview data={draftArticleData} />
-          <Article data={draftArticleData} />
+          <Article data={draftArticleData} imageMap={imageMap} />
         </>
       )}
     </div>

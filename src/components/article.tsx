@@ -9,9 +9,10 @@ import Renderer from "./renderer";
 
 type ArticleProps = {
   data: ArticleType;
+  imageMap?: Record<string, string>;
 } & Omit<React.HTMLAttributes<HTMLElement>, "data">;
 
-export default function Article({ data, className, ...props }: ArticleProps) {
+export default function Article({ data, imageMap, className, ...props }: ArticleProps) {
   return (
     <div className={clsx("flex flex-col gap-4", className)} {...props}>
       <h1 className="text-4xl font-bold text-(--secondary) text-pretty">
@@ -74,6 +75,7 @@ export default function Article({ data, className, ...props }: ArticleProps) {
               extensions: [gfm(), math()],
               mdastExtensions: [gfmFromMarkdown(), mathFromMarkdown()],
             })}
+            imageMap={imageMap}
           />
         </div>
       )}

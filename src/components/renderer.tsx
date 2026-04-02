@@ -7,10 +7,42 @@ import a11y from "react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark";
 import "katex/dist/katex.min.css";
 import Image from "next/image";
 
+function parseImageTitle(title: string): { caption?: string; width?: string } {
+  const parts = title.split("|");
+  if (parts.length >= 2) {
+    const maybeSize = parts[0].trim();
+    const caption = parts.slice(1).join("|").trim() || undefined;
+    if (/^\d+(%|px)$/.test(maybeSize)) {
+      return { caption, width: maybeSize };
+    }
+    // No valid size, treat entire title as caption
+    return { caption: title };
+  }
+  // Single part: could be a size or a caption
+  const trimmed = title.trim();
+  if (/^\d+(%|px)$/.test(trimmed)) {
+    return { width: trimmed };
+  }
+  return { caption: title };
+}
+
+function resolveImageSrc(
+  url: string,
+  imageMap?: Record<string, string>,
+): string {
+  if (!imageMap) return url;
+  // Match by exact URL or by filename (last segment of path)
+  if (imageMap[url]) return imageMap[url];
+  const filename = url.split("/").pop() || "";
+  if (imageMap[filename]) return imageMap[filename];
+  return url;
+}
+
 // Helper function to recursively render inline content
 function renderInlineContent(
   children: PhrasingContent[],
   keyPrefix: string,
+  imageMap?: Record<string, string>,
 ): (JSX.Element | null)[] {
   return children.map((child, index) => {
     const childKey = `${keyPrefix}-${child.type}-${index}`;
@@ -21,19 +53,19 @@ function renderInlineContent(
     if (child.type === "strong") {
       return (
         <strong key={childKey}>
-          {renderInlineContent(child.children, childKey)}
+          {renderInlineContent(child.children, childKey, imageMap)}
         </strong>
       );
     }
     if (child.type === "emphasis") {
       return (
-        <em key={childKey}>{renderInlineContent(child.children, childKey)}</em>
+        <em key={childKey}>{renderInlineContent(child.children, childKey, imageMap)}</em>
       );
     }
     if (child.type === "delete") {
       return (
         <span key={childKey} className="line-through">
-          {renderInlineContent(child.children, childKey)}
+          {renderInlineContent(child.children, childKey, imageMap)}
         </span>
       );
     }
@@ -44,18 +76,27 @@ function renderInlineContent(
         .join("");
 
       if (linkText.toLowerCase() === "image") {
-        if (child.title) {
+        const { caption, width } = child.title
+          ? parseImageTitle(child.title)
+          : { caption: undefined, width: undefined };
+        const imgStyle = width ? { width } : undefined;
+        const imgClass = width
+          ? "mx-auto h-auto block"
+          : "mx-auto h-auto w-2/3 block";
+
+        if (caption) {
           return (
             <span key={childKey} className="inline-block w-full">
               <Image
-                src={child.url}
+                src={resolveImageSrc(child.url, imageMap)}
                 alt={linkText}
                 width={800}
                 height={600}
-                className="mx-auto h-auto w-2/3 block"
+                style={imgStyle}
+                className={imgClass}
               />
               <span className="text-sm text-gray-600 mt-2 text-center block">
-                {child.title}
+                {caption}
               </span>
             </span>
           );
@@ -63,11 +104,12 @@ function renderInlineContent(
         return (
           <Image
             key={childKey}
-            src={child.url}
+            src={resolveImageSrc(child.url, imageMap)}
             alt={linkText}
             width={800}
             height={600}
-            className="inline-block h-auto mx-auto w-2/3"
+            style={imgStyle}
+            className={clsx("inline-block h-auto mx-auto", !width && "w-2/3")}
           />
         );
       }
@@ -80,7 +122,7 @@ function renderInlineContent(
           rel="noopener noreferrer"
           className="text-(--primary) hover:underline"
         >
-          {renderInlineContent(child.children, childKey)}
+          {renderInlineContent(child.children, childKey, imageMap)}
         </a>
       );
     }
@@ -113,18 +155,24 @@ function renderInlineContent(
       return <br key={childKey} />;
     }
     if (child.type === "image") {
-      if (child.title) {
+      const { caption, width } = child.title
+        ? parseImageTitle(child.title)
+        : { caption: undefined, width: undefined };
+      const imgStyle = width ? { width } : undefined;
+
+      if (caption) {
         return (
           <span key={childKey} className="inline-block my-4">
             <Image
-              src={child.url}
+              src={resolveImageSrc(child.url, imageMap)}
               alt={child.alt || ""}
               width={800}
               height={600}
+              style={imgStyle}
               className="max-w-full h-auto block"
             />
             <span className="text-sm text-gray-600 mt-2 text-center block">
-              {child.title}
+              {caption}
             </span>
           </span>
         );
@@ -132,10 +180,11 @@ function renderInlineContent(
       return (
         <Image
           key={childKey}
-          src={child.url}
+          src={resolveImageSrc(child.url, imageMap)}
           alt={child.alt || ""}
           width={800}
           height={600}
+          style={imgStyle}
           className="inline-block max-w-full h-auto"
         />
       );
@@ -144,7 +193,10 @@ function renderInlineContent(
   });
 }
 
-export default function Renderer({ data }: { data: Root }) {
+export default function Renderer({
+  data,
+  imageMap,
+}: { data: Root; imageMap?: Record<string, string> }) {
   return (
     <div className="flex flex-col gap-4">
       {data.children.map((node, index) => {
@@ -154,7 +206,7 @@ export default function Renderer({ data }: { data: Root }) {
         if (node.type === "paragraph") {
           return (
             <p key={nodeKey} className="text-base leading-relaxed">
-              {renderInlineContent(node.children, nodeKey)}
+              {renderInlineContent(node.children, nodeKey, imageMap)}
             </p>
           );
         }
@@ -172,7 +224,7 @@ export default function Renderer({ data }: { data: Root }) {
           });
           return (
             <HeadingTag key={nodeKey} className={className}>
-              {renderInlineContent(node.children, nodeKey)}
+              {renderInlineContent(node.children, nodeKey, imageMap)}
             </HeadingTag>
           );
         }
@@ -234,6 +286,7 @@ export default function Renderer({ data }: { data: Root }) {
                           return renderInlineContent(
                             child.children,
                             `${nodeKey}-${itemIndex}`,
+                            imageMap,
                           );
                         }
                         return null;
@@ -275,7 +328,7 @@ export default function Renderer({ data }: { data: Root }) {
                         "text-right": alignment === "right",
                       })}
                     >
-                      {renderInlineContent(cell.children, cellKey)}
+                      {renderInlineContent(cell.children, cellKey, imageMap)}
                     </div>
                   );
                 }),
@@ -307,7 +360,7 @@ export default function Renderer({ data }: { data: Root }) {
                 if (child.type === "paragraph") {
                   return (
                     <span key={childKey}>
-                      {renderInlineContent(child.children, childKey)}
+                      {renderInlineContent(child.children, childKey, imageMap)}
                     </span>
                   );
                 }
@@ -329,7 +382,7 @@ export default function Renderer({ data }: { data: Root }) {
                 if (child.type === "paragraph") {
                   return (
                     <p key={childKey}>
-                      {renderInlineContent(child.children, childKey)}
+                      {renderInlineContent(child.children, childKey, imageMap)}
                     </p>
                   );
                 }
