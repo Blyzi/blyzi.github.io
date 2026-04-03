@@ -29,6 +29,7 @@ export const fontSchema = Type.Union([
 
 const metadataSchema = Type.Object({
   title: Type.String(),
+  description: Type.Optional(Type.String()),
   websiteUrl: Type.Optional(Type.String({ format: "url" })),
   logo: Type.Optional(Type.String()),
   primaryColor: Type.String(),

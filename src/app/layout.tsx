@@ -21,6 +21,7 @@ const metadataConfig = rawMetadataConfig as Metadata;
 
 export const metadata: NextMetadata = {
   title: metadataConfig.title,
+  description: metadataConfig.description,
   ...(metadataConfig.logo && {
     icons: {
       icon: metadataConfig.logo,
