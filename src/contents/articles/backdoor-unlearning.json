@@ -1,0 +1,16 @@
+{
+    "title": "Backdoor Unlearning Generalization: A Path Toward the Removal of Unknown Triggers in LLMs",
+    "flag": "Under review",
+    "date": "2026-05-28",
+    "tags": [
+        "LLM Safety",
+        "Mechanistic Interpretability"
+    ],
+    "links": [
+        {
+        "label": "ArXiv",
+        "url": "https://arxiv.org/abs/2606.03785"
+        }
+    ],
+    "authors": "Lisa Bouger$^*$, Théo Lasnier$^*$, Philippe Loubet Moundi, Yannick Teglia, Djamé Seddah"
+}

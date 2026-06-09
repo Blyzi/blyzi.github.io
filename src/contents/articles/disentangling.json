@@ -1,6 +1,6 @@
 {
-  "title": "Disentangling meaning from language in LLM based MT",
-  "flag": "Under review",
+  "title": "Translation Heads:Disentangling meaning from language in LLM based MT",
+  "flag": "ICML 2026",
   "date": "2026-02-05",
   "tags": [
     "Machine Translation",
