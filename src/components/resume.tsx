@@ -54,12 +54,20 @@ function ExperienceCard({
         )}
       </p>
       {experience.description && (
-        <Renderer
-          data={fromMarkdown(experience.description, {
-            extensions: [gfm(), math()],
-            mdastExtensions: [gfmFromMarkdown(), mathFromMarkdown()],
-          })}
-        />
+        <div
+          className={clsx(
+            experience.education
+              ? "[&_a]:text-(--secondary)"
+              : "[&_a]:text-(--primary)",
+          )}
+        >
+          <Renderer
+            data={fromMarkdown(experience.description, {
+              extensions: [gfm(), math()],
+              mdastExtensions: [gfmFromMarkdown(), mathFromMarkdown()],
+            })}
+          />
+        </div>
       )}
     </div>
   );
